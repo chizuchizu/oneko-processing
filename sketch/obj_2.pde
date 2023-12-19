@@ -59,7 +59,7 @@ class Obj{
     if (!isFar){
       currentState = OnekoState.SLEEPING;
       waiting = millis();
-    } else if (isFar && millis() - waiting < 1000){
+    } else if (millis() - waiting < 1000){
       currentState = OnekoState.WAITING_FOR_RUNNING;
     } else {
       currentState = OnekoState.RUNNING;
