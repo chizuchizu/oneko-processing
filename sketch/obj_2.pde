@@ -17,8 +17,8 @@ enum RunningDirection {
 }
 
 enum RunningMotion {
+  M0,
   M1,
-  M2,
 }
 
 class Obj{
@@ -26,6 +26,7 @@ class Obj{
   OnekoState currentState;
   OnekoState lastState;
   RunningDirection directionState;
+  RunningMotion motionState;
   float threasholdStopping;
   float speed;
   float waiting;
@@ -73,6 +74,8 @@ class Obj{
       setPosition(x + vx, y + vy);
     }
     updateDirectionState(angle);
+    updateMotionState();
+    println(directionState, motionState);
   }
   void drawRunning(){}
   void drawWaiting_For_Running(){}
@@ -98,7 +101,14 @@ class Obj{
       directionState = RunningDirection.D3;
     }
 
-    println(directionState);
+  }
+
+  void updateMotionState(){
+    if (motionState == RunningMotion.M0){
+      motionState = RunningMotion.M1;
+    } else {
+      motionState = RunningMotion.M0;
+    }
   }
 
   void draw(){
