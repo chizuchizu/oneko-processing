@@ -1,3 +1,5 @@
+import java.util.Map;
+
 enum OnekoState {
   SLEEPING,
   WAITING_FOR_RUNNING,
@@ -30,13 +32,20 @@ class Obj{
   float threasholdStopping;
   float speed;
   float waiting;
+  float timeWaiting;
+  int count, resetCount;
 
   Obj (){
     x = 0;
     y = 0;
-    speed = 1.3;
+    resetCount = 5;
+    count = 0;
+    speed = 7.5;
     threasholdStopping = 20;
+    timeWaiting = 750;  // ms
     waiting = millis();
+    motionState = RunningMotion.M0;
+    directionState = RunningDirection.D0;
   }
 
   void setPosition(float xpos, float ypos){
@@ -45,6 +54,13 @@ class Obj{
   }
 
   void updateState(float mX, float mY){
+    if (count == 0){
+      count = resetCount;
+    } else {
+      count--;
+      return;
+    }
+
     // The difference between mouse position and center of the circle 
     float dx = mX - x;
     float dy = mY - y;
@@ -60,7 +76,7 @@ class Obj{
     if (!isFar){
       currentState = OnekoState.SLEEPING;
       waiting = millis();
-    } else if (millis() - waiting < 1000){
+    } else if (millis() - waiting < timeWaiting){
       currentState = OnekoState.WAITING_FOR_RUNNING;
     } else {
       currentState = OnekoState.RUNNING;
@@ -77,7 +93,7 @@ class Obj{
     updateMotionState();
     println(directionState, motionState);
   }
-  void drawRunning(){}
+  void drawRunning(RunningDirection dS, RunningMotion mS){}
   void drawWaiting_For_Running(){}
   void drawStopping(){}
 
@@ -121,7 +137,7 @@ class Obj{
         drawWaiting_For_Running();
         break;
       case RUNNING:
-        drawRunning();
+        drawRunning(directionState, motionState);
         break;
     }
 
