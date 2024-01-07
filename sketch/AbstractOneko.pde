@@ -115,6 +115,8 @@ class Obj{
       directionState = RunningDirection.D2;
     } else if (angle < QUARTER_PI * 7 / 2){
       directionState = RunningDirection.D3;
+    } else {
+      directionState = RunningDirection.D4;
     }
 
   }
