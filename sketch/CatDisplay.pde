@@ -13,7 +13,7 @@ class Cat extends Obj{
   @Override
   void drawRunning(RunningDirection dS, RunningMotion mS){
     String suffix = mS == RunningMotion.M0 ? "1" : "2";
-    String filePath = filePathMap.getOrDefault(dS, "imgs/awake.gif").formatted(suffix);
+    String filePath = filePathMap.get(dS).formatted(suffix);
 
     PImage img = loadImage(filePath);
     image(img, x, y);
